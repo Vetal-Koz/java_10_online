@@ -13,7 +13,6 @@ public class Main {
 //        Exercise2 exercise2 = new Exercise2();
 //        exercise2.start();
 
-
         Exercise3 exercise3 = new Exercise3();
         exercise3.start();
     }
