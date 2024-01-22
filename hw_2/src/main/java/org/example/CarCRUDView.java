@@ -33,20 +33,20 @@ public class CarCRUDView {
         System.out.println("If you want to exit please enter 3");
     }
 
-    private void readAll(){
-        for (Car car : cars){
-            if(car != null){
+    private void readAll() {
+        for (Car car : cars) {
+            if (car != null) {
                 System.out.println("Car Brand - " + car.brand + " Year of creating - " + car.yearOfCreating);
             }
         }
     }
 
     private String validateCorrectParse(String yearOfCreatingString, BufferedReader bufferedReader, Car car) throws IOException {
-        while (!yearOfCreatingString.matches("[0-9]+")){
+        while (!yearOfCreatingString.matches("[0-9]+")) {
             System.out.println("Please enter correct type of year");
             yearOfCreatingString = bufferedReader.readLine();
         }
-        if (!car.validateYearOfCreating(Integer.parseInt(yearOfCreatingString))){
+        if (!car.validateYearOfCreating(Integer.parseInt(yearOfCreatingString))) {
             System.out.println("Please enter correct year");
             yearOfCreatingString = bufferedReader.readLine();
             validateCorrectParse(yearOfCreatingString, bufferedReader, car);
@@ -55,13 +55,13 @@ public class CarCRUDView {
     }
 
     private void create(BufferedReader bufferedReader) throws IOException {
-        if (numberOfCars == cars.length-1){
+        if (numberOfCars == cars.length - 1) {
             copyAndCreateBiggerArray();
         }
         Car car = new Car();
         System.out.println("Please enter brand");
         String brand = bufferedReader.readLine();
-        while (!car.validateBrand(brand)){
+        while (!car.validateBrand(brand)) {
             System.out.println("Please enter another brand which start with Upper Char");
             brand = bufferedReader.readLine();
         }
@@ -76,15 +76,13 @@ public class CarCRUDView {
         numberOfCars += 1;
     }
 
-    private void copyAndCreateBiggerArray(){
-        Car[] newCars = new Car[cars.length+10];
-        for (int i = 0; i<cars.length; i++){
+    private void copyAndCreateBiggerArray() {
+        Car[] newCars = new Car[cars.length + 10];
+        for (int i = 0; i < cars.length; i++) {
             newCars[i] = cars[i];
         }
         cars = newCars;
     }
-    
-    
 
 
 }

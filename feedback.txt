@@ -1,1 +1,23 @@
 REMOVE .idea from project
+
+Оч хорошо, чуть позже поясню, почему не оч хорошо создавать
+3 экземпляра BufferedReader, но то в будущем)
+
+        int startLessons = 9 * 60;
+        int minutes = lessonNumber * 45;
+        int numberOfPairLessons = (lessonNumber-1) / 2;
+        int numberOfUnpairLessons = (lessonNumber-1) - numberOfPairLessons;
+        int breakBetweenPairLessons = numberOfPairLessons * 15;
+        int breakBetweenUnpairLessons = numberOfUnpairLessons * 5;
+        int time = startLessons + minutes + breakBetweenPairLessons + breakBetweenUnpairLessons;
+        System.out.println(time / 60 + " " + time % 60);
+
+        алгоритм пойдет)), но вот эти чудо числа лучше выносить в константы)
+
+
+//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
+// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+
+а это что???)))
+
+и делай реформат кода, я ж на лекциях рассказывал
