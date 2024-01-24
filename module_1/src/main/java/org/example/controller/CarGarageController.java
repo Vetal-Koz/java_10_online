@@ -37,12 +37,13 @@ public class CarGarageController {
             case "1" -> readAll();
             case "2" -> delete(reader);
             case "exit" -> {
-                Main.start();}
+                Main.start();
+            }
         }
     }
 
-    void readAll(){
-        for (CarGarage carGarage : carGarageService.findAll()){
+    void readAll() {
+        for (CarGarage carGarage : carGarageService.findAll()) {
             if (carGarage != null) {
                 System.out.println(
                         "Car id: " + carGarage.getCarId() +

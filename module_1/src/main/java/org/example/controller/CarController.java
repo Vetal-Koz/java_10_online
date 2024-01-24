@@ -49,7 +49,7 @@ public class CarController {
     void create(BufferedReader reader) throws IOException {
         System.out.println("Please enter brand");
         String brand = reader.readLine();
-        while (!validateBrand(brand)){
+        while (!validateBrand(brand)) {
             System.out.println("Please enter another brand which start with Upper Char");
             brand = reader.readLine();
         }
@@ -63,30 +63,29 @@ public class CarController {
         carService.create(car);
     }
 
-    private void readAll(){
-        for (Car car : carService.findAll()){
-            if(car != null){
-                System.out.println("Id - "+car.getId() +" Car Brand - " + car.brand + " Year of creating - " + car.yearOfCreating);
+    private void readAll() {
+        for (Car car : carService.findAll()) {
+            if (car != null) {
+                System.out.println("Id - " + car.getId() + " Car Brand - " + car.brand + " Year of creating - " + car.yearOfCreating);
             }
         }
     }
 
-    private void readByGarageId(BufferedReader reader) throws IOException{
+    private void readByGarageId(BufferedReader reader) throws IOException {
         System.out.println("Please enter garage id");
         String idString = reader.readLine();
         if (idString.matches("-?\\d+")) {
             int id = Integer.parseInt(idString);
-            if (carService.allCarsByGarage(id) != null){
-                for (Car car: carService.allCarsByGarage(id)){
+            if (carService.allCarsByGarage(id) != null) {
+                for (Car car : carService.allCarsByGarage(id)) {
                     System.out.println(
                             "Brand : " + car.getBrand() +
                                     ", Year of creating: " + car.getYearOfCreating());
                 }
-            }
-            else {
+            } else {
                 System.out.println("There aren't any cars in this garage");
             }
-        }else {
+        } else {
             System.out.println("Please enter true format of id");
         }
     }
@@ -118,7 +117,7 @@ public class CarController {
             if (car != null) {
                 System.out.println("Please enter brand");
                 String brand = reader.readLine();
-                while (!validateBrand(brand)){
+                while (!validateBrand(brand)) {
                     System.out.println("Please enter another brand which start with Upper Char");
                     brand = reader.readLine();
                 }
@@ -134,7 +133,7 @@ public class CarController {
             } else {
                 System.out.println("car not found");
             }
-        }    else {
+        } else {
             System.out.println("Please enter true format of id");
         }
     }
@@ -149,35 +148,33 @@ public class CarController {
             if (car == null) {
                 System.out.println("Car was deleted");
             }
-        }
-        else {
+        } else {
             System.out.println("Please enter true format of id");
         }
     }
-    public boolean validateBrand(String brand){
-        if (Character.isUpperCase(brand.charAt(0))){
+
+    public boolean validateBrand(String brand) {
+        if (Character.isUpperCase(brand.charAt(0))) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
-    public boolean validateYearOfCreating(int yearOfCreating){
-        if(yearOfCreating >= 0 && yearOfCreating <= 2024){
+    public boolean validateYearOfCreating(int yearOfCreating) {
+        if (yearOfCreating >= 0 && yearOfCreating <= 2024) {
             return true;
-        }
-        else {
+        } else {
             return false;
         }
     }
 
     private String validateCorrectParse(String yearOfCreatingString, BufferedReader bufferedReader) throws IOException {
-        while (!yearOfCreatingString.matches("[0-9]+")){
+        while (!yearOfCreatingString.matches("[0-9]+")) {
             System.out.println("Please enter correct type of year");
             yearOfCreatingString = bufferedReader.readLine();
         }
-        if (!validateYearOfCreating(Integer.parseInt(yearOfCreatingString))){
+        if (!validateYearOfCreating(Integer.parseInt(yearOfCreatingString))) {
             System.out.println("Please enter correct year");
             yearOfCreatingString = bufferedReader.readLine();
             validateCorrectParse(yearOfCreatingString, bufferedReader);

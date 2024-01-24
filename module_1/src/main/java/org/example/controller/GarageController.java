@@ -45,7 +45,8 @@ public class GarageController {
             case "5" -> delete(reader);
             case "6" -> attachCar(reader);
             case "exit" -> {
-                Main.start();}
+                Main.start();
+            }
         }
     }
 
@@ -57,10 +58,10 @@ public class GarageController {
         garageService.create(garage);
     }
 
-    private void readAll(){
-        for (Garage garage : garageService.findAll()){
-            if(garage != null){
-                System.out.println("Id - "+garage.getId() +" Garage name - " + garage.getName());
+    private void readAll() {
+        for (Garage garage : garageService.findAll()) {
+            if (garage != null) {
+                System.out.println("Id - " + garage.getId() + " Garage name - " + garage.getName());
             }
         }
     }
@@ -74,7 +75,7 @@ public class GarageController {
             if (garage != null) {
                 System.out.println(
                         "Name : " + garage.getName()
-                                );
+                );
             } else {
                 System.out.println("garage not found");
             }
@@ -99,7 +100,7 @@ public class GarageController {
             } else {
                 System.out.println("Garage not found");
             }
-        }    else {
+        } else {
             System.out.println("Please enter true format of id");
         }
     }
@@ -114,36 +115,35 @@ public class GarageController {
             if (garage == null) {
                 System.out.println("Garage was deleted");
             }
-        }
-        else {
+        } else {
             System.out.println("Please enter true format of id");
         }
     }
 
-    void attachCar(BufferedReader reader) throws IOException{
+    void attachCar(BufferedReader reader) throws IOException {
         System.out.println("Please enter garage id");
         String garageIdString = reader.readLine();
         if (garageIdString.matches("-?\\d+")) {
             int garageId = Integer.parseInt(garageIdString);
             Garage garage = garageService.findById(garageId);
-            if (garage != null){
+            if (garage != null) {
                 System.out.println("Please enter car id");
                 String carIdString = reader.readLine();
-                if (carIdString.matches("-?\\d+")){
+                if (carIdString.matches("-?\\d+")) {
                     int carId = Integer.parseInt(carIdString);
                     Car car = carService.findById(carId);
-                    if(car != null){
+                    if (car != null) {
                         garageService.attachCar(carId, garageId);
-                    }else{
+                    } else {
                         System.out.println("Car not found");
                     }
-                }else{
+                } else {
                     System.out.println("Input true format of id");
                 }
-            }else{
+            } else {
                 System.out.println("Garage not found");
             }
-        }else{
+        } else {
             System.out.println("Input true format of id");
         }
     }

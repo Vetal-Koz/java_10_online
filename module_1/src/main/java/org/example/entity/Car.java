@@ -1,6 +1,6 @@
 package org.example.entity;
 
-public class Car extends BaseEntity{
+public class Car extends BaseEntity {
     public String brand;
     public int yearOfCreating;
 

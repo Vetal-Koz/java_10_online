@@ -1,6 +1,6 @@
 package org.example.entity;
 
-public class Garage extends BaseEntity{
+public class Garage extends BaseEntity {
 
     private String name;
 
