@@ -39,10 +39,11 @@ public final class CarGarageRelation {
         }
     }
 
-    public void updateCar(Integer carId, Car car){
+    public void updateCar(Car car){
         for (int i = 0; i<cars.length; i++){
-            if(cars[i] != null && cars[i].getId().equals(carId)){
+            if(cars[i] != null && cars[i].getId().equals(car.getId())){
                 cars[i] = car;
+                break;
             }
         }
     }
@@ -61,10 +62,11 @@ public final class CarGarageRelation {
         }
     }
 
-    public void updateGarage(Integer garageId, Garage garage){
+    public void updateGarage(Garage garage){
         for (int i = 0; i<garages.length; i++){
-            if(garages[i] != null && garages[i].getId().equals(garageId)){
+            if(garages[i] != null && garages[i].getId().equals(garage.getId())){
                 garages[i] = garage;
+                break;
             }
         }
     }
@@ -72,8 +74,10 @@ public final class CarGarageRelation {
     public void attachCarToGarage(Integer carId, Integer garageId){
         boolean hasSuchElement = false;
         for(CarGarage carGarage : carGarages){
-            if (carGarage.getCarId().equals(carId) && carGarage.getGarageId().equals(garageId)){
-                hasSuchElement = true;
+            if(carGarage != null) {
+                if (carGarage.getCarId().equals(carId) && carGarage.getGarageId().equals(garageId)) {
+                    hasSuchElement = true;
+                }
             }
         }
         if (!hasSuchElement){
@@ -97,9 +101,11 @@ public final class CarGarageRelation {
         Integer countOfCar = 0;
         Integer[] carIdArray = new Integer[carGarages.length];
         for (int i =0; i<carGarages.length; i++){
-            if(carGarages[i].getGarageId().equals(garageId)){
-                carIdArray[countOfCar] = carGarages[i].getCarId();
-                countOfCar++;
+            if(carGarages[i] != null) {
+                if (carGarages[i].getGarageId().equals(garageId)) {
+                    carIdArray[countOfCar] = carGarages[i].getCarId();
+                    countOfCar++;
+                }
             }
         }
 
@@ -107,8 +113,10 @@ public final class CarGarageRelation {
 
         for (int i=0; i<carIdArray.length; i++){
             for (int j = 0; j<cars.length; j++){
-                if (cars[j].getId().equals(carIdArray[i])){
-                    carsByGarageId[i] = cars[j];
+                if(cars[j] != null) {
+                    if (cars[j].getId().equals(carIdArray[i])) {
+                        carsByGarageId[i] = cars[j];
+                    }
                 }
             }
         }
@@ -116,7 +124,7 @@ public final class CarGarageRelation {
         return carsByGarageId;
     }
 
-    public  void deleteCarById(Integer carId){
+    public  void deleteCar(Integer carId){
         Car[] newCars = new Car[cars.length];
         int j = 0;
         for (int i = 0; i<cars.length; i++, j++){
@@ -160,7 +168,7 @@ public final class CarGarageRelation {
         carGarages = newCarGarages;
     }
 
-    public  void deleteGarageById(Integer garageId){
+    public  void deleteGarage(Integer garageId){
         Garage[] newGarages = new Garage[garages.length];
         int j = 0;
         for (int i = 0; i<garages.length; i++, j++){
@@ -236,13 +244,25 @@ public final class CarGarageRelation {
         return null;
     }
 
-    public Garage findById(int id) {
+    public Garage findGarageById(int id) {
         for (int i = 0; i < garages.length; i++) {
             if (garages[i] != null && garages[i].getId() == id) {
                 return garages[i];
             }
         }
         return null;
+    }
+
+    public Car[] allCars(){
+        return cars;
+    }
+
+    public Garage[] allGarage(){
+        return garages;
+    }
+
+    public CarGarage[] allCarGarage(){
+        return carGarages;
     }
     private Integer generateIdForCar(){
         return carId++;
