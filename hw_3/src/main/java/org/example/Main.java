@@ -16,12 +16,12 @@ public class Main {
 
     }
 
-    public static String reverse(String src){
+    public static String reverse(String src) {
         String[] piecesOfText = src.split(" ");
-        for (int i=0; i<piecesOfText.length; i++){
+        for (int i = 0; i < piecesOfText.length; i++) {
             String newStr = "";
             char[] chars = piecesOfText[i].toCharArray();
-            for (int j = chars.length-1; j>=0; j--){
+            for (int j = chars.length - 1; j >= 0; j--) {
                 newStr += chars[j];
             }
             piecesOfText[i] = newStr;
@@ -30,13 +30,12 @@ public class Main {
         return reverseText;
     }
 
-    public static String reverse(String src, String dest){
+    public static String reverse(String src, String dest) {
 
-        if(!src.contains(dest)){
+        if (!src.contains(dest)) {
             System.out.println("Your text do not contains this word");
             return src;
-        }
-        else {
+        } else {
             String[] piecesOfStr = src.split(dest);
             String newReverse = "";
             char[] chars = dest.toCharArray();
@@ -49,27 +48,26 @@ public class Main {
     }
 
 
-    public static String reverse(String src, int firstIndex, int lastIndex){
+    public static String reverse(String src, int firstIndex, int lastIndex) {
         String newReverseText = "";
         String[] splitText = src.split(" ");
-        for (int i = 0; i<splitText.length; i++){
-            if(lastIndex >= splitText[i].length()){
+        for (int i = 0; i < splitText.length; i++) {
+            if (lastIndex >= splitText[i].length()) {
                 String piece = (String) splitText[i].subSequence(firstIndex, splitText[i].length());
                 char[] charsPiece = piece.toCharArray();
                 String reversePeice = "";
-                for (int j = charsPiece.length-1; j>=0; j--){
+                for (int j = charsPiece.length - 1; j >= 0; j--) {
                     reversePeice += charsPiece[j];
                 }
                 String newText = splitText[i].replace(piece, reversePeice);
                 newReverseText += newText + " ";
                 firstIndex = 0;
                 lastIndex -= splitText[i].length();
-            }
-            else {
+            } else {
                 String piece = (String) splitText[i].subSequence(firstIndex, lastIndex);
                 char[] charsPiece = piece.toCharArray();
                 String reversePeice = "";
-                for (int j = charsPiece.length-1; j>=0; j--){
+                for (int j = charsPiece.length - 1; j >= 0; j--) {
                     reversePeice += charsPiece[j];
                 }
                 String newText = splitText[i].replace(piece, reversePeice);
