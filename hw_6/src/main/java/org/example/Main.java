@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
 
-
 public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
@@ -19,7 +18,6 @@ public class Main {
                 .map(w -> w.replace(".", ""))
                 .distinct()
                 .toList();
-
 
         Map<String, Long> dict = new HashMap<>();
         distinctWords.stream()
@@ -36,14 +34,11 @@ public class Main {
         Map<String, Long> newMap = new TreeMap<>(comparator);
         newMap.putAll(dict);
 
-
         List<Long> ratings = newMap.values().stream().toList().reversed();
-
 
         List<Double> percents = newMap.values().stream()
                 .map(s -> (double) ((s * 100) / words.stream().count()))
                 .toList();
-
 
         AsciiTable at = new AsciiTable();
         at.addRule();
