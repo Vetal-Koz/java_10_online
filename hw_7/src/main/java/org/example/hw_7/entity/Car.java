@@ -1,6 +1,6 @@
 package org.example.hw_7.entity;
 
-public class Car extends BaseEntity{
+public class Car extends BaseEntity {
     String nameOfMark;
     Integer yearOfCreating;
 
@@ -15,7 +15,6 @@ public class Car extends BaseEntity{
     public void setNameOfMark(String nameOfMark) {
         this.nameOfMark = nameOfMark;
     }
-
 
 
     public void setYearOfCreating(Integer yearOfCreating) {

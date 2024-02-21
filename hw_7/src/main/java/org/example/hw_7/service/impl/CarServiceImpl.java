@@ -9,6 +9,7 @@ import java.util.Collection;
 
 public class CarServiceImpl implements CarService {
     DBCarGarage instance = DBCarGarage.getInstance();
+
     @Override
     public void create(Car entity) {
         instance.createCar(entity);
@@ -16,26 +17,24 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public void update(Car entity) {
-        if(entity != null){
+        if (entity != null) {
             instance.updateCar(entity);
-        }
-        else {
+        } else {
             throw new EntityNotFoundException("Car with such id is not found");
         }
     }
 
     @Override
     public void delete(Long id) {
-       instance.deleteCar(id);
+        instance.deleteCar(id);
     }
 
     @Override
     public Car findById(Long id) {
         Car car = instance.findCarById(id);
-        if (car != null){
+        if (car != null) {
             return car;
-        }
-        else {
+        } else {
             throw new EntityNotFoundException("Car with such id is not found");
         }
     }

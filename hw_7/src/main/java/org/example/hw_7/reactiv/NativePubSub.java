@@ -9,9 +9,15 @@ public class NativePubSub {
 
     private Consumer<Boolean> publisherGarage;
     private Consumer<Boolean> publisherCar;
-    private NativePubSub() {};
 
-    public static NativePubSub getInstance() {return instance;}
+    private NativePubSub() {
+    }
+
+    ;
+
+    public static NativePubSub getInstance() {
+        return instance;
+    }
 
     private Consumer<LoaderPage> publisher;
 
@@ -23,13 +29,14 @@ public class NativePubSub {
         publisherCar.accept(publishCar);
     }
 
-    public void publish(LoaderPage page){
+    public void publish(LoaderPage page) {
         publisher.accept(page);
     }
 
-    public void subscribe(Consumer<LoaderPage> consumer){
+    public void subscribe(Consumer<LoaderPage> consumer) {
         this.publisher = consumer;
     }
+
     public void subscribeGarage(Consumer<Boolean> consumer) {
         this.publisherGarage = consumer;
     }

@@ -10,6 +10,7 @@ import java.util.Collection;
 
 public class GarageServiceImpl implements GarageService {
     DBCarGarage instance = DBCarGarage.getInstance();
+
     @Override
     public void create(Garage entity) {
         instance.createGarage(entity);
@@ -17,10 +18,9 @@ public class GarageServiceImpl implements GarageService {
 
     @Override
     public void update(Garage entity) {
-        if(entity != null){
+        if (entity != null) {
             instance.updateGarage(entity);
-        }
-        else {
+        } else {
             throw new EntityNotFoundException("Garage with such id is not found");
         }
     }
@@ -33,10 +33,9 @@ public class GarageServiceImpl implements GarageService {
     @Override
     public Garage findById(Long id) {
         Garage garage = instance.findGarageById(id);
-        if (garage != null){
+        if (garage != null) {
             return garage;
-        }
-        else {
+        } else {
             throw new EntityNotFoundException("Garage with such id is not found");
         }
     }
