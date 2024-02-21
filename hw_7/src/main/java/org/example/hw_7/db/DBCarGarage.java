@@ -23,7 +23,7 @@ public class DBCarGarage {
         this.cars.add(car);
     }
     public void createGarage(Garage garage){
-        garage.setId(generateIdForCar());
+        garage.setId(generateIdForGarage());
         this.garages.add(garage);
     }
     public void updateCar(Car newCar){
@@ -31,15 +31,16 @@ public class DBCarGarage {
                 .filter(c -> {return c.getId().equals(newCar.getId());})
                 .findFirst()
                 .get();
-        car = newCar;
+        car.setNameOfMark(newCar.getNameOfMark());
+        car.setYearOfCreating(newCar.getYearOfCreating());
     }
 
     public void updateGarage(Garage newGarage){
-        Garage garage = garages.stream()
-                .filter(c -> {return c.getId().equals(newGarage.getId());})
-                .findFirst()
-                .get();
-        garage = newGarage;
+        for (Garage garage: garages){
+            if (garage.getId().equals(newGarage.getId())){
+                garage.setName(newGarage.getName());
+            }
+        }
     }
 
     public void deleteGarage(Long id){

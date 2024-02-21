@@ -8,13 +8,15 @@ public class Car extends BaseEntity{
         return nameOfMark;
     }
 
+    public Integer getYearOfCreating() {
+        return yearOfCreating;
+    }
+
     public void setNameOfMark(String nameOfMark) {
         this.nameOfMark = nameOfMark;
     }
 
-    public Integer getYearOfCreating() {
-        return yearOfCreating;
-    }
+
 
     public void setYearOfCreating(Integer yearOfCreating) {
         this.yearOfCreating = yearOfCreating;
