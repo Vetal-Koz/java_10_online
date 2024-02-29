@@ -7,8 +7,8 @@ import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        FileController fileController = new FileController();
-        fileController.start();
+        StartApp startApp = new StartApp();
+        startApp.run();
     }
 
 }

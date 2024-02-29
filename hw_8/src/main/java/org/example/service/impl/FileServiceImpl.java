@@ -1,5 +1,6 @@
 package org.example.service.impl;
 
+import org.example.exception.FileNotFoundException;
 import org.example.service.FileService;
 
 import java.io.File;
@@ -11,10 +12,20 @@ public class FileServiceImpl implements FileService {
     @Override
     public File openDirectory(File currentDirectory, String nameDirectory) {
         if (nameDirectory.contains("/")) {
-            return new File(nameDirectory);
+            File file = new File(nameDirectory);
+            if (file.exists()){
+                return file;
+            }else {
+                throw new FileNotFoundException("File does not exist");
+            }
         } else {
             File newDirectory = new File(currentDirectory.getAbsolutePath() + "/" + nameDirectory);
-            return newDirectory;
+            if (newDirectory.exists()) {
+                return newDirectory;
+            }
+            else {
+                throw new FileNotFoundException("File does not exist");
+            }
         }
     }
 
@@ -30,13 +41,16 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public void createFile(File currentDir, String fileName) {
-        File newFile;
-        if (fileName.contains("/")) {
-            newFile = new File(fileName);
-        } else {
-            newFile = new File(currentDir.getAbsolutePath() + "/" + fileName);
-        }
         try {
+            File newFile;
+            if (fileName.contains("/")) {
+                newFile = new File(fileName);
+            } else {
+                newFile = new File(currentDir.getAbsolutePath() + "/" + fileName);
+            }
+            if (!newFile.exists()) {
+                throw new FileNotFoundException("File does not exist");
+            }
             newFile.createNewFile();
         } catch (IOException e) {
             System.out.println("e = " + e.getMessage());
@@ -76,6 +90,9 @@ public class FileServiceImpl implements FileService {
             newFile = new File(fileName);
         } else {
             newFile = new File(currentDir.getAbsolutePath() + "/" + fileName);
+        }
+        if (!newFile.exists()) {
+            throw new FileNotFoundException("File does not exist");
         }
         newFile.renameTo(new File(to + "/" + fileName));
     }
