@@ -1,6 +1,5 @@
 package org.example.controller;
 
-import org.example.Main;
 import org.example.service.impl.FileServiceImpl;
 
 import java.io.BufferedReader;
@@ -25,7 +24,6 @@ public class FileController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     void menu() {
@@ -60,11 +58,9 @@ public class FileController {
         try {
             String nameDirectory = reader.readLine();
             this.currentDirectory = fileService.openDirectory(currentDirectory, nameDirectory);
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public void createNewFile(File currentDirectory, BufferedReader reader) {
@@ -72,11 +68,9 @@ public class FileController {
         try {
             String fileName = reader.readLine();
             fileService.createFile(currentDirectory, fileName);
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
 
@@ -89,7 +83,6 @@ public class FileController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     public void readDirectory(File currentDirectory) {
@@ -140,5 +133,4 @@ public class FileController {
             throw new RuntimeException(e);
         }
     }
-
 }
