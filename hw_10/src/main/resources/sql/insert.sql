@@ -1,0 +1,15 @@
+INSERT INTO cars VALUES (DEFAULT, 'car1', 2002);
+INSERT INTO cars VALUES (DEFAULT, 'car2', 2003);
+INSERT INTO cars VALUES (DEFAULT, 'car3', 2004);
+INSERT INTO cars VALUES (DEFAULT, 'car4', 2005);
+
+
+INSERT INTO garages VALUES (DEFAULT, 'garage1');
+INSERT INTO garages VALUES (DEFAULT, 'garage2');
+INSERT INTO garages VALUES (DEFAULT, 'garage3');
+INSERT INTO garages VALUES (DEFAULT, 'garage4');
+
+
+INSERT INTO car_garage VALUES (1, 1);
+INSERT INTO car_garage VALUES (2, 1);
+
