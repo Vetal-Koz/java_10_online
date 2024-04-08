@@ -17,6 +17,7 @@ public class MainController {
 
     @Autowired
     private GarageController garageController;
+
     public void start() {
         try {
             BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

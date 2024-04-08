@@ -11,6 +11,7 @@ public interface CrudDao<E extends BaseEntity> {
     void delete(Long id);
     Optional<E> findById(Long id);
     Collection<E> findAll();
+
     Collection<E> findAll(DataTableRequest tableRequest);
     long count();
 

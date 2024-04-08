@@ -21,12 +21,12 @@ public class Garage extends BaseEntity {
     @JoinTable(
             name = "gar_car",
             joinColumns = @JoinColumn(name = "gar_id"),
-            inverseJoinColumns =   @JoinColumn(name = "car_id")
+            inverseJoinColumns = @JoinColumn(name = "car_id")
     )
     @ToString.Exclude
     Set<Car> cars;
 
-    public Garage(){
+    public Garage() {
         this.cars = new HashSet<>();
     }
 

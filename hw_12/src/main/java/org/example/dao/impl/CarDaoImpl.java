@@ -129,7 +129,6 @@ public class CarDaoImpl implements CarDao {
     }
 
 
-
     @Override
     public long count() {
         return entityManager.createQuery("select count(c) from Car c").executeUpdate();

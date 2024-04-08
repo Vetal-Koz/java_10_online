@@ -15,5 +15,6 @@ public interface CrudService<E extends BaseEntity> {
     E findById(Long id);
 
     Collection<E> findAll();
+
     Collection<E> findAll(DataTableRequest tableRequest);
 }

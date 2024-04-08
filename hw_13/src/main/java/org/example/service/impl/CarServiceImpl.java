@@ -41,8 +41,7 @@ public class CarServiceImpl implements CarService {
 
     @Transactional
     @Override
-    public void update(Car entity)
-    {
+    public void update(Car entity) {
         carRepository.save(entity);
     }
 
@@ -76,9 +75,9 @@ public class CarServiceImpl implements CarService {
         int size = tableRequest.getSize();
 
         Sort sort = null;
-        if (type.equals(OrderType.ASC)){
+        if (type.equals(OrderType.ASC)) {
             sort = Sort.by(column).ascending();
-        }else {
+        } else {
             sort = Sort.by(column).descending();
         }
         Pageable pageable = PageRequest.of(page, size, sort);
@@ -89,8 +88,8 @@ public class CarServiceImpl implements CarService {
     @Transactional
     @Override
     public void attachCarToGarage(Long carId, Long garageId) {
-        Car car = carRepository.findById(carId).orElseThrow(()->new RuntimeException("Entity not found"));
-        Garage garage = garageRepository.findById(garageId).orElseThrow(()->new RuntimeException("entity not found"));
+        Car car = carRepository.findById(carId).orElseThrow(() -> new RuntimeException("Entity not found"));
+        Garage garage = garageRepository.findById(garageId).orElseThrow(() -> new RuntimeException("entity not found"));
         garage.getCars().add(car);
         garageRepository.save(garage);
     }
@@ -98,7 +97,7 @@ public class CarServiceImpl implements CarService {
     @Transactional
     @Override
     public void detachCarFromGarage(Long carId, Long garageId) {
-        Garage garage = garageRepository.findById(garageId).orElseThrow(()->new RuntimeException("entity not found"));
+        Garage garage = garageRepository.findById(garageId).orElseThrow(() -> new RuntimeException("entity not found"));
         garage.getCars().removeIf(car -> car.getId().equals(carId));
         garageRepository.save(garage);
     }

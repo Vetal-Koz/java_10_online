@@ -14,11 +14,13 @@ import java.util.Map;
 
 public class ObjectFactory {
     private final static ObjectFactory instance = new ObjectFactory();
-    private ObjectFactory(){}
+
+    private ObjectFactory() {
+    }
 
     private final Map<Class<?>, Object> objectMap = new HashMap<>();
 
-    public <S> S getService(Class<?> interfaceService){
+    public <S> S getService(Class<?> interfaceService) {
         return (S) objectMap.get(interfaceService);
     }
 
@@ -29,7 +31,8 @@ public class ObjectFactory {
         objectMap.put(CarService.class, new CarServiceImpl());
         objectMap.put(GarageService.class, new GarageServiceImpl());
     }
-    public static ObjectFactory getInstance(){
+
+    public static ObjectFactory getInstance() {
         return instance;
     }
 }

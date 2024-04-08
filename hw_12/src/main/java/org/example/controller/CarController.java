@@ -91,32 +91,31 @@ public class CarController {
     }
 
     private void readAll(BufferedReader reader) throws IOException {
-            DataTableRequest tableRequest = new DataTableRequest();
-            System.out.println("if you want sort by brand enter 1");
-            System.out.println("if you want sort by year of creating enter 2");
-            String fieldNumber = reader.readLine();
-            switch (fieldNumber){
-                case ("1") -> tableRequest.setColumn("brand");
-                case ("2") -> tableRequest.setColumn("yearOfCreating");
-            }
-            System.out.println("Please choose type of sorting");
-            System.out.println("if you want sort ASC enter 1");
-            System.out.println("if you want sort DESC enter 2");
-            String typeOfSort = reader.readLine();
-            switch (typeOfSort){
-                case("1") -> tableRequest.setOrderType(OrderType.ASC);
-                case("2") -> tableRequest.setOrderType(OrderType.DESC);
-            }
-            System.out.println("Please enter reviewed page number (from 1 to ...)");
-            int page = Integer.parseInt(reader.readLine());
-            System.out.println("Please enter reviewed page size (from 1 to ...)");
-            int size = Integer.parseInt(reader.readLine());
+        DataTableRequest tableRequest = new DataTableRequest();
+        System.out.println("if you want sort by brand enter 1");
+        System.out.println("if you want sort by year of creating enter 2");
+        String fieldNumber = reader.readLine();
+        switch (fieldNumber) {
+            case ("1") -> tableRequest.setColumn("brand");
+            case ("2") -> tableRequest.setColumn("yearOfCreating");
+        }
+        System.out.println("Please choose type of sorting");
+        System.out.println("if you want sort ASC enter 1");
+        System.out.println("if you want sort DESC enter 2");
+        String typeOfSort = reader.readLine();
+        switch (typeOfSort) {
+            case ("1") -> tableRequest.setOrderType(OrderType.ASC);
+            case ("2") -> tableRequest.setOrderType(OrderType.DESC);
+        }
+        System.out.println("Please enter reviewed page number (from 1 to ...)");
+        int page = Integer.parseInt(reader.readLine());
+        System.out.println("Please enter reviewed page size (from 1 to ...)");
+        int size = Integer.parseInt(reader.readLine());
 
 
-            tableRequest.setPage(page);
-            tableRequest.setSize(size);
-            carService.findAll(tableRequest).forEach(System.out::println);
-
+        tableRequest.setPage(page);
+        tableRequest.setSize(size);
+        carService.findAll(tableRequest).forEach(System.out::println);
 
 
     }

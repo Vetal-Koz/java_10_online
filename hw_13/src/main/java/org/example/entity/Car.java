@@ -27,7 +27,7 @@ public class Car extends BaseEntity {
     @ToString.Exclude
     Set<Garage> garages;
 
-    public Car(){
+    public Car() {
         this.garages = new HashSet<>();
     }
 
