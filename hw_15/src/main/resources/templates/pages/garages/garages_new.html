@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragments/layout}">
+
+<body style="background-image: url('../../../static/images/background.jpg');">
+    <div layout:fragment="main_content">
+        <div class="container-xl">
+            <div class="card" style="width: 40rem;">
+                <div class="card-header">
+                    New garage
+                </div>
+                <form method="post" th:action="@{/garages/new}" th:object="${garage}">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="container mb-3">
+                                <label  class="col-sm-2 col-form-label col-form-label-lg">Name</label>
+                                <div class="col-sm-10">
+                                    <input type="text" th:field="*{name}" class="form-control form-control-lg"  placeholder="">
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-success">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

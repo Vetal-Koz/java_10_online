@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragments/layout}">
+<body>
+<div layout:fragment="main_content">
+    <div class="card" style="width: 18rem;">
+        <h5 class="card-title" th:text="${garage.getName()}"></h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">Attached cars</h6>
+        <table class="table">
+            <thead class="table-dark">
+            <tr>
+                <th scope="col">Brand</th>
+                <th scope="col">Year of creating</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="brand, info: ${garage.getCarBrands()}" >
+                <td th:text="${brand}"></td>
+                <td th:text="${garage.getCarYearsOfCreating().get(info.index)}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-12 mt-4">
+        <div class="card">
+            <div class="card-header">
+                Non attached cars to garage
+            </div>
+            <div class="card-body">
+                <form th:action="@{'/garages/attach/' + ${garage.getId()}}" th:object="${attachCarsToGarage}" method="post">
+                    <ul class="list-group mb-3" th:each="notAttachedCar: ${nonAttachedCars}">
+                        <li class="list-group-item mt-1">
+                            <input class="form-check-input me-1" type="checkbox" th:value="${notAttachedCar.getId()}" id="firstCheckbox" th:field="*{carIds}">
+                            <label class="form-check-label" th:text="${notAttachedCar.getBrand() + ' ' + notAttachedCar.getYearOfCreating()}" for="firstCheckbox"></label>
+                        </li>
+                    </ul>
+                    <button type="submit" class="btn btn-primary">Attach</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

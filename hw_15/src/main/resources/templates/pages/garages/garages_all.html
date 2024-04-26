@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragments/layout}">
+<body>
+<div layout:fragment="main_content">
+    <div class="container-xl">
+        <a th:href="@{/garages/new}" class="btn btn-info mb-3">Create new garage</a>
+        <table class="table">
+            <thead class="table-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Count of cars</th>
+                <th scope="col">Cars</th>
+                <th scope="col">Update</th>
+                <th scope="col">Delete</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="garage, info: ${garages}">
+                <th scope="row" th:text="${info.index + 1}"></th>
+                <td th:text="${garage.getName()}"></td>
+                <td th:text="${garage.getCountOfCars()}"></td>
+                <td>
+                    <ul class="list-group" th:each="carBrand, info: ${garage.getCarBrands()}">
+                        <li class="list-group-item" th:text="${carBrand}"></li>
+                    </ul>
+                    <div class="d-flex justify-content-between p-2">
+                        <a type="button" th:href="@{'/garages/attach/' + ${garage.getId()}}" class="">
+                            <span class="material-symbols-outlined">library_add</span>
+                        </a>
+                        <a type="button" th:href="@{'/garages/detach/' + ${garage.getId()}}" class="">
+                            <span class="material-symbols-outlined">playlist_remove</span>
+                        </a>
+                    </div>
+                </td>
+                <td>
+                    <a type="button" th:href="@{'/garages/update/' + ${garage.getId()}}" class="btn btn-outline-primary btn-sm">Update</a>
+                </td>
+                <td>
+                    <a type="button" th:href="@{'/garages/delete/' + ${garage.getId()}}" class="btn btn-outline-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

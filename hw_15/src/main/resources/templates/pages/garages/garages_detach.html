@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragments/layout}">
+<body>
+<div layout:fragment="main_content">
+    <div class="container p-2">
+        <h1 th:text="${garage.getName()}"></h1>
+        <div class="col-12 mt-4">
+            <div class="card">
+                <div class="card-header">
+                    Attached cars to garage
+                </div>
+                <div class="card-body">
+                    <form th:action="@{'/garages/detach/' + ${garage.getId()}}" th:object="${detachCarsToGarage}" method="post">
+                        <ul class="list-group mb-3" th:each="attachedCar: ${attachedCarsToGarage}">
+                            <li class="list-group-item mt-1">
+                                <input class="form-check-input me-1" type="checkbox" th:value="${attachedCar.getId()}" id="firstCheckbox" th:field="*{carIds}">
+                                <label class="form-check-label" th:text="${attachedCar.getBrand() + ' ' + attachedCar.getYearOfCreating()}" for="firstCheckbox"></label>
+                            </li>
+                        </ul>
+                        <button type="submit" class="btn btn-primary">Detach</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

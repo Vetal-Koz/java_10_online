@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{fragments/layout}">
+<body>
+    <div layout:fragment="main_content">
+        <div class="container-xl">
+            <a th:href="@{/cars/new}" class="btn btn-info mb-3">Create new car</a>
+            <table class="table">
+                <thead class="table-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Brand</th>
+                    <th scope="col">Year of creating</th>
+                    <th scope="col">Count of garages</th>
+                    <th scope="col">Update</th>
+                    <th scope="col">Delete</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="car, info: ${cars}">
+                    <th scope="row" th:text="${info.index + 1}"></th>
+                    <td th:text="${car.getBrand()}"></td>
+                    <td th:text="${car.getYearOfCreating()}"></td>
+                    <td th:text="${car.getCountOfGarages()}"></td>
+                    <td>
+                        <a type="button" th:href="@{'/cars/update/' + ${car.getId()}}" class="btn btn-outline-primary btn-sm">Update</a>
+                    </td>
+                    <td>
+                        <a type="button" th:href="@{'/cars/delete/' + ${car.getId()}}" class="btn btn-outline-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>
