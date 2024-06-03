@@ -49,7 +49,6 @@ INSERT INTO car_variant (color, drivetrain, kilometrage, number_of_doors, number
 ('Silver', 'FWD', 90000, 5, 5, 5200.00, 5, 'AUTOMATIC', 2003, 7, 1);
 
 
-
 INSERT INTO thumbnails (car_id, car_image_id) VALUES
 (1, 1),
 (1, 2),
