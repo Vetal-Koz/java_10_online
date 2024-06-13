@@ -8,11 +8,16 @@ import org.example.final_server.dto.response.CarPdpResponse;
 import org.example.final_server.dto.response.CarResponse;
 import org.example.final_server.dto.response.DataTableResponse;
 import org.example.final_server.dto.response.ResponseContainer;
+import org.example.final_server.elastic.document.CarIndex;
 import org.example.final_server.facade.CarFacade;
 import org.example.final_server.facade.CarPdpFacade;
+import org.example.final_server.service.CarSearchService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @Tag(name = "Car Page", description = "the plp API with crud operations")
@@ -24,6 +29,7 @@ public class CarController {
 
     private final CarFacade carFacade;
     private final CarPdpFacade carPdpFacade;
+    private final CarSearchService carSearchService;
 
     @GetMapping
     public ResponseEntity<ResponseContainer<DataTableResponse<CarResponse>>> findAll(
@@ -38,5 +44,11 @@ public class CarController {
     @GetMapping("{carId}")
     public ResponseEntity<ResponseContainer<CarPdpResponse>> findById(@Min(1) @PathVariable("carId") Long carId){
         return ResponseEntity.ok(new ResponseContainer<>(carPdpFacade.findByCar(carId)));
+    }
+
+    @GetMapping("search")
+    public ResponseEntity<ResponseContainer<List<CarIndex>>> search(@RequestParam String search){
+        List<CarIndex> cars = carSearchService.search(search);
+        return ResponseEntity.status(HttpStatus.OK).body(new ResponseContainer<List<CarIndex>>(cars));
     }
 }

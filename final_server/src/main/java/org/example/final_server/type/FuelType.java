@@ -1,5 +1,8 @@
 package org.example.final_server.type;
 
+import lombok.Getter;
+
+@Getter
 public enum FuelType {
     PETROL("petrol"),
     DIESEL("diesel"),

@@ -13,7 +13,7 @@ import org.example.final_server.type.TransmissionType;
 @Setter
 @AllArgsConstructor
 @Builder()
-public class CarIndexData {
+public class CarSearchDto {
     private Car car;
     private TransmissionType transmissionType;
     private FuelType fuelType;

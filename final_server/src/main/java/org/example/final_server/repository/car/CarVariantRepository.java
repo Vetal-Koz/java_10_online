@@ -2,7 +2,7 @@ package org.example.final_server.repository.car;
 
 import org.example.final_server.entity.car.CarVariant;
 import org.example.final_server.repository.BaseRepository;
-import org.example.final_server.repository.car.data.CarIndexData;
+import org.example.final_server.repository.car.data.CarSearchDto;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
@@ -14,8 +14,8 @@ public interface CarVariantRepository extends BaseRepository<CarVariant> {
 
     @Query(value = "select distinct " +
             "new org.example.final_server.repository.car.data" +
-            ".CarIndexData(cv.car, cv.transmission, cv.carEngine.typeOfFuel)" +
+            ".CarSearchDto(cv.car, cv.transmission, cv.carEngine.typeOfFuel)" +
             " from CarVariant cv")
-    List<CarIndexData> findCarIndexDataList();
+    List<CarSearchDto> findCarIndexDataList();
 
 }

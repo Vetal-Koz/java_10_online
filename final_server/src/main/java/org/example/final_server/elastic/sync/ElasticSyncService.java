@@ -5,8 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.example.final_server.elastic.document.CarIndex;
 import org.example.final_server.elastic.repository.CarIndexRepository;
 import org.example.final_server.repository.car.CarVariantRepository;
-import org.example.final_server.repository.car.data.CarIndexData;
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import org.example.final_server.repository.car.data.CarSearchDto;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
@@ -23,14 +22,26 @@ public class ElasticSyncService {
     public void updateElasticData(){
         carIndexRepository.deleteAll();
         System.out.println("ElasticSyncService.updateElasticData");
-        List<CarIndexData> carIndexDataList = carVariantRepository.findCarIndexDataList();
-        List<CarIndex> carIndices = carIndexDataList.stream().map(cd -> {
-            return CarIndex.builder()
-                    .carId(cd.getCar().getId())
-                    .carInfo(cd.getCar() + " " + cd.getFuelType() + " " + cd.getTransmissionType())
-                    .build();
-            }
-        ).toList();
-        carIndexRepository.saveAll(carIndices);
+        carIndexRepository.saveAll(getCarIndexList());
+    }
+
+    private List<CarIndex> getCarIndexList(){
+        List<CarSearchDto> carSearchDtoList = carVariantRepository.findCarIndexDataList();
+        List<CarIndex> carIndices = carSearchDtoList
+                .stream()
+                .map(cd -> {
+                    return CarIndex.builder()
+                            .carId(cd.getCar().getId())
+                            .carInfo(
+                                    cd.getCar().getModel() +
+                                            " " + cd.getCar().getBrand().getBrand()
+                                            + " " + cd.getCar().getBodyType().getName()
+                                            + " " + cd.getFuelType().getType()
+                                            + " " + cd.getTransmissionType().getType())
+                            .build();
+                }
+        )
+                .toList();
+        return carIndices;
     }
 }

@@ -3,6 +3,7 @@ package org.example.final_server.entity.car;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.example.final_server.entity.BaseEntity;
 import org.example.final_server.type.BodyType;
 import org.example.final_server.type.BrandType;
@@ -32,6 +33,7 @@ public class Car extends BaseEntity {
 
     @Column(length = 4096)
     String description;
+
 
     @ManyToMany
     @JoinTable(

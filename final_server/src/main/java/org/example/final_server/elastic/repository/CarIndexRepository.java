@@ -8,7 +8,7 @@ import java.util.List;
 
 
 @Repository
-public interface CarIndexRepository extends ElasticsearchRepository<CarIndex, Long> {
+public interface CarIndexRepository extends ElasticsearchRepository<CarIndex, String> {
 
     List<CarIndex> findAllByCarInfoContainingIgnoreCase(String carInfo);
 }
