@@ -1,26 +1,29 @@
 package org.example.final_server.controller;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.example.final_server.dto.request.DataTableRequest;
+import org.example.final_server.dto.response.CarPdpResponse;
 import org.example.final_server.dto.response.CarResponse;
 import org.example.final_server.dto.response.DataTableResponse;
 import org.example.final_server.dto.response.ResponseContainer;
 import org.example.final_server.facade.CarFacade;
+import org.example.final_server.facade.CarPdpFacade;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 
 @Tag(name = "Car Page", description = "the plp API with crud operations")
 @RestController
 @RequestMapping("/api/cars")
 @RequiredArgsConstructor
+@Validated
 public class CarController {
 
     private final CarFacade carFacade;
+    private final CarPdpFacade carPdpFacade;
 
     @GetMapping
     public ResponseEntity<ResponseContainer<DataTableResponse<CarResponse>>> findAll(
@@ -30,5 +33,10 @@ public class CarController {
             @RequestParam(defaultValue = "desc") String order){
         DataTableRequest dataTableRequest = new DataTableRequest(size, page, sort, order);
         return ResponseEntity.ok(new ResponseContainer<>(carFacade.findAll(dataTableRequest)));
+    }
+
+    @GetMapping("{carId}")
+    public ResponseEntity<ResponseContainer<CarPdpResponse>> findById(@Min(1) @PathVariable("carId") Long carId){
+        return ResponseEntity.ok(new ResponseContainer<>(carPdpFacade.findByCar(carId)));
     }
 }

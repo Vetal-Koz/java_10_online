@@ -6,6 +6,7 @@ import lombok.Getter;
 public enum BrandType {
     AUDI("Audi"),
     MERCEDES("Mercedes-Benz"),
+    BMW("BWM"),
     TOYOTA("Toyota"),
     FORD("Ford"),
     HONDA("Honda"),

@@ -1,0 +1,8 @@
+<div *ngIf="car">
+  <div>{{car.description}}</div>
+  <div>{{car.carVariantResponses}}</div>
+  <div *ngFor="let item of carEngineList.displacement">
+    <div> {{item}}</div>  
+  </div>
+
+</div>

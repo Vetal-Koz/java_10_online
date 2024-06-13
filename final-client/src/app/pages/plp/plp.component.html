@@ -1,0 +1,21 @@
+<div class="container">
+  
+  <div *ngIf="loading">
+    <mat-spinner class="progressSpinner"></mat-spinner>
+  </div>
+    <div class="row row-cols-1 row-cols-md-2 g-4" *ngIf="!loading">
+      <div *ngFor="let car of cars" class="col">
+          <div class="card">
+            <img src="{{ car.carImage }}" class="card-img-top" style="object-fit: cover;" alt="...">
+            <div class="card-body">
+              <h5 class="card-title">{{ car.brand}} <span style="color: red;">{{car.model}}</span></h5>
+              <p class="card-text">Generation: <span style="font-weight: bold;">{{car.generation}}</span></p>
+              <p class="card-text fs-4">Price: <span style="color: green;">{{car.minPrice | currency:'USD':true:'0.0-0'}}</span>...<span style="color: green;">{{car.maxPrice | currency:'USD':true:'0.0-0'}}</span></p>
+              <a href="#" class="btn btn-primary">Details</a>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+
