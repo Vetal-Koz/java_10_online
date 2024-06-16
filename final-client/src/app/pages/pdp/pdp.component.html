@@ -1,8 +1,118 @@
-<div *ngIf="car">
-  <div>{{car.description}}</div>
-  <div>{{car.carVariantResponses}}</div>
-  <div *ngFor="let item of carEngineList.displacement">
-    <div> {{item}}</div>  
+<div *ngIf="car" xmlns="http://www.w3.org/1999/html">
+  <div class="d-flex justify-content-between">
+    <div class="row">
+      <div class="col">
+        <div id="geeks">
+          <img [style.height]="isSmall ? '100%' : '30vw'"  src="{{ selectedImage }}" class="card-img-top">
+        </div>
+        <div class="d-flex flex-row mt-2">
+            <div class="gallery" *ngFor="let image of car.carImages" style="flex: 1">
+              <img src= "{{ image }}" (click)="selectMainImage(image)"  style="width: 100%; height: 100%">
+            </div>
+        </div>
+    </div>
+      <div [ngClass]="isSmall ? 'row' : 'col'" id="right-side" style="max-height: 740px">
+        <form [formGroup]="form">
+          <p class="car-title" style="">{{car.brand+ ' ' + car.model + ' ' + car.generation.replace('Generation', 'Gen')}}</p>
+          <div class="selectors">
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="inputGroupSelect01">Color</label>
+              <select class="form-select" id="inputGroupSelect01" formControlName="color" (click)="onClickForVariant('color')">
+                <ng-container *ngFor="let color of carVariantList.color">
+                  <option value="{{color}}">{{color}}</option>
+                </ng-container>
+              </select>
+            </div>
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="inputGroupSelect01">Year</label>
+              <select class="form-select" id="inputGroupSelect02" formControlName="year"  (click)="onClickForVariant('year')">
+                <ng-container *ngFor="let year of carVariantList.year">
+                  <option value="{{year}}">{{year}}</option>
+                </ng-container>
+              </select>
+            </div>
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="inputGroupSelect01">Kilometrage</label>
+              <select class="form-select" id="inputGroupSelect03" formControlName="kilometrage" (click)="onClickForVariant('kilometrage')">
+                <ng-container *ngFor="let kilometrage of carVariantList.kilometrage">
+                  <option value="{{kilometrage}}">{{kilometrage}}</option>
+                </ng-container>
+              </select>
+            </div>
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="inputGroupSelect01">Type of fuel</label>
+              <select class="form-select" id="inputGroupSelect04" formControlName="typeOfFuel" (click)="onClickForEngine('typeOfFuel')">
+                <ng-container *ngFor="let type of carEngineList.typeOfFuel">
+                  <option value="{{type}}">{{type}}</option>
+                </ng-container>
+              </select>
+            </div>
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="inputGroupSelect01">Displacement</label>
+              <select class="form-select" id="inputGroupSelect4" formControlName="displacement" (click)="onClickForEngine('displacement')">
+                <ng-container *ngFor="let displacement of carEngineList.displacement">
+                  <option value="{{displacement}}">{{displacement | number : '1.1-1' }}</option>
+                </ng-container>
+              </select>
+            </div>
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="inputGroupSelect01">Transmission</label>
+              <select class="form-select" id="inputGroupSelect5" formControlName="transmission" (click)="onClickForVariant('transmission')">
+                <ng-container *ngFor="let transmission of carVariantList.transmission">
+                  <option value="{{transmission}}">{{transmission}}</option>
+                </ng-container>
+              </select>
+            </div>
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="inputGroupSelect01">Drivetrain</label>
+              <select class="form-select" id="inputGroupSelect6" formControlName="drivetrain" (click)="onClickForVariant('drivetrain')">
+                <ng-container *ngFor="let drivetrain of carVariantList.drivetrain">
+                  <option value="{{drivetrain}}">{{drivetrain}}</option>
+                </ng-container>
+              </select>
+            </div>
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="inputGroupSelect01">Number Of Doors</label>
+              <select class="form-select" id="inputGroupSelect7" formControlName="numberOfDoors" (click)="onClickForVariant('numberOfDoors')">
+                <ng-container *ngFor="let numberOfDoors of carVariantList.numberOfDoors">
+                  <option value="{{Number(numberOfDoors)}}">{{numberOfDoors}}</option>
+                </ng-container>
+              </select>
+            </div>
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="inputGroupSelect01">Fuel Economy</label>
+              <select class="form-select" id="inputGroupSelect8" formControlName="fuelEconomy" (click)="onClickForEngine('fuelEconomy')">
+                <ng-container *ngFor="let fuelEconomy of carEngineList.fuelEconomy">
+                  <option value="{{fuelEconomy}}">{{fuelEconomy}}</option>
+                </ng-container>
+              </select>
+            </div>
+            <div class="input-group mb-3">
+              <label class="input-group-text" for="inputGroupSelect01">Horse power</label>
+              <select class="form-select"  id="inputGroupSelect9" formControlName="horsepower" (click)="onClickForEngine('horsepower')">
+                <ng-container *ngFor="let horsepower of carEngineList.horsepower">
+                  <option value="{{Number(horsepower)}}">{{horsepower}}</option>
+                </ng-container>
+              </select>
+            </div>
+          </div>
+          <h2 *ngIf="getCurrentCarPrice()">Price: <span style="color: #08ff54">{{ carPrice | currency:'USD':true:'0.0-0' }}</span> </h2>
+          <div class="container flex-column" style="padding-left: 0">
+            <button type="button" class="btn btn-outline-secondary" (click)="clearChoice()"
+                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+              Reset my choice
+            </button>
+            <button type="button" *ngIf="getCurrentCarPrice()" class="btn btn-success"
+                    style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem; margin-left: 8px">
+              Add to wish list
+            </button>
+          </div>
+        </form>
+      </div>
+      <div class="mt-5">
+        <h3>Description</h3>
+        <div class="mt-2 mb-5" style="font-size: 18px">{{car.description}}</div>
+      </div>
+    </div>
   </div>
-
 </div>

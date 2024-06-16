@@ -1,49 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import {AfterViewInit, Component, HostListener, OnInit} from '@angular/core';
 import { PdpData } from '../../models/pdp.data';
 import { CarVariantData } from '../../models/car-variant-data';
 import { CarEngineData } from '../../models/car-engine.data';
 import { CarService } from '../../services/car.service';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import { CarVariantList } from "./helpModels/car-variant-list";
+import {carEngineList} from "./helpModels/car-engine-list";
+import {fromEvent, Observable, Subscription} from "rxjs";
 
 
-interface carVariantList {
-
-  color: string[];
-  
-  year: number[];
-
-  kilometrage: string[];
-
-  transmission: string[];
-
-  drivetrain: string[];
-
-  price: string[];
-
-  numberOfDoors: number[];
-
-  numberOfSeats: number[];
-
-  safetyRating: string[];
-}
-
-
-interface carEngineList {
-
-  typeOfFuel: string[],
-
-  displacement: string[],
-
-  horsepower: number[],
-
-  fuelEconomy: string[],
-
-  torque: number[],
-
-  cylinders: number[];
-}
-
-const defaultCarVariantList: carVariantList = {
+const defaultCarVariantList: CarVariantList = {
   color: [],
   year: [],
   kilometrage: [],
@@ -75,27 +42,139 @@ const defaultCarEngineList: carEngineList = {
 export class PdpComponent implements OnInit{
   car?: PdpData;
 
-  carVariant?: CarVariantData;
+  carVariant: CarVariantData[] = [];
 
-  carEngine?: CarEngineData;
-  
-  carVariantList = defaultCarVariantList;
+  carFormVariant: CarVariantData[] = [];
+
+  countOfSelectFunction: number = 0;
+
+  isSmall?: boolean;
+
+  innerWidth?: number;
+
+  carPrice: string = '';
+
+  numberOfClick: number = 0;
+
+  carVariantList= defaultCarVariantList;
 
   carEngineList = defaultCarEngineList;
 
-  constructor(private carService: CarService, private route: ActivatedRoute) {}
+  selectedImage?: string;
 
-  getPdpById(id: number){
+  form: FormGroup = this.formBuilder.group({
+    color: [null, Validators.required],
+    year: [null, Validators.required],
+    kilometrage: [null, Validators.required],
+    transmission: [null, Validators.required],
+    drivetrain: [null, Validators.required],
+    numberOfDoors: [null, Validators.required],
+    typeOfFuel: [null, Validators.required],
+    displacement: [null, Validators.required],
+    fuelEconomy: [null, Validators.required],
+    horsepower: [null, Validators.required],
+  })
+
+  constructor(private carService: CarService, private route: ActivatedRoute, private formBuilder: FormBuilder) {}
+
+
+  getInfoById(id: number){
     this.carService.findById(id)
     .subscribe(res => {
-      this.car = res,
-      console.log(res.brand),
-      console.log(res.carImages),
-      console.log(res.carVariantResponses)
-      this.initCarVariantSets(res.carVariantResponses),
-      this.initCarEngineSets(res.carVariantResponses)
+        this.car = res,
+        this.selectedImage = res.carImages[0],
+        this.carVariant = res.carVariantResponses,
+          this.carFormVariant = this.carVariant;
+        this.initCarVariantSets(res.carVariantResponses),
+        this.initCarEngineSets(res.carVariantResponses)
     });
-    
+
+  }
+
+  selectMainImage(image: string): void{
+    this.selectedImage = image;
+  }
+
+
+  ngOnInit(): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'))
+    this.getInfoById(id);
+    // this.onChanges();
+    this.innerWidth = window.innerWidth;
+    this.checkCurrentWidth();
+  }
+
+  onClickForVariant(text: string){
+    console.log(1);
+    console.log(this.form.controls[text].value);
+    console.log(text);
+
+    if (this.form.controls[text].value !== null) {
+      // @ts-ignore
+      this.carFormVariant = this.carFormVariant.filter(cv => cv[text] === this.form.controls[text].value);
+      console.log(this.carFormVariant);
+      this.initCarVariantSets(this.carFormVariant);
+      this.initCarEngineSets(this.carFormVariant);
+    }
+  }
+
+  onClickForEngine(text: string){
+    console.log(1);
+    console.log(this.form.controls[text].value);
+    console.log(text);
+
+    if (this.form.controls[text].value !== null) {
+      console.log(this.carFormVariant);
+      // @ts-ignore
+      if (text !== 'horsepower') {
+        // @ts-ignore
+
+        this.carFormVariant = this.carFormVariant.filter(cv => cv.carEngineResponse[text] === this.form.controls[text].value);
+      }
+      else {
+        this.carFormVariant = this.carFormVariant.filter(cv => cv.carEngineResponse['horsepower'] === Number(this.form.controls[text].value));
+      }
+      this.initCarVariantSets(this.carFormVariant);
+      this.initCarEngineSets(this.carFormVariant);
+    }
+  }
+
+
+
+  @HostListener('window:resize', ['$event.target.innerWidth'])
+  onResize(width: number) {
+    console.log(width);
+    this.innerWidth = width;
+    this.checkCurrentWidth();
+  }
+
+  checkCurrentWidth(): void{
+    // @ts-ignore
+    if (this.innerWidth < 1060){
+      this.isSmall = true;
+    }else {
+      this.isSmall = false;
+    }
+  }
+
+
+  getCurrentCarPrice():boolean{
+    if (!this.form.invalid){
+      this.carPrice = this.carFormVariant.map(cv => cv.price)[0];
+      return true;
+    }
+    else {
+      return false
+    }
+  }
+
+
+  updateFormCarVariant() {
+    this.initCarVariantSets(this.carFormVariant);
+    this.initCarEngineSets(this.carFormVariant);
+    // if (this.countOfSelectFunction < 1) {
+    //   this.selectOneValue();
+    // }
   }
 
   initCarVariantSets(carVariants: CarVariantData[]): void{
@@ -119,6 +198,20 @@ export class PdpComponent implements OnInit{
       numberOfSeats: Array.from(numbersOfSeats),
       safetyRating: Array.from(safetyRatings)
     }
+
+    for (let variantsKey in this.carVariantList) {
+      // @ts-ignore
+      if(this.carVariantList[variantsKey].length === 1 && variantsKey !== 'price' && variantsKey !== 'numberOfSeats' && variantsKey !== 'safetyRating') {
+        if (variantsKey !== 'horsepower') {
+          // @ts-ignore
+          this.form.controls[variantsKey].setValue(this.carVariantList[variantsKey][0]);
+        }
+
+        // @ts-ignore
+        console.log(this.carVariantList[variantsKey]);
+        console.log(variantsKey);
+      }
+    }
   }
 
   initCarEngineSets(carVariants: CarVariantData[]): void{
@@ -136,15 +229,29 @@ export class PdpComponent implements OnInit{
       torque: Array.from(torques),
       cylinders: Array.from(cylinders)
     }
+    // for (let variantsKey in this.carEngineList) {
+    //   // @ts-ignore
+    //   if(this.carEngineList[variantsKey].length === 1 && variantsKey !== 'cylinders' && variantsKey !== 'torque') {
+    //     // @ts-ignore
+    //     this.form.controls[variantsKey].setValue(this.carVariantList[variantsKey][0]);
+    //     // @ts-ignore
+    //     console.log(this.carVariantList[variantsKey]);
+    //     console.log(variantsKey);
+    //   }
+    // }
   }
 
-  ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'))
-    this.getPdpById(id);
-   
+
+  clearChoice() : void{
+    this.form.reset();
+    this.carFormVariant = this.carVariant;
+    this.initCarVariantSets(this.carFormVariant);
+    this.initCarEngineSets(this.carFormVariant);
+    this.countOfSelectFunction = 0;
   }
 
 
 
+  protected readonly Number = Number;
 }
 

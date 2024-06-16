@@ -5,6 +5,8 @@ import { PlpData } from '../models/plp.data';
 import { ResponseContainerData } from '../models/response-container.data';
 import { DataTableResponseData } from '../models/data-table-response.data';
 import { PdpData } from '../models/pdp.data';
+import {Data} from "@angular/router";
+import {CarIndexData} from "../models/car-index-data";
 
 @Injectable({
   providedIn: 'root'
@@ -27,5 +29,12 @@ export class CarService {
     .pipe(
       map(container => container.data),
     );
+  }
+
+  carSearch(search: string): Observable<CarIndexData[]> {
+    return this.http.get<ResponseContainerData<CarIndexData[]>>(`${this.carsUrl}/search?search=${search}`)
+      .pipe(
+        map(res => res.data)
+      )
   }
 }
