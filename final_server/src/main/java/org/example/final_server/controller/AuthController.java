@@ -11,10 +11,9 @@ import org.example.final_server.service.AuthenticationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 
 @RequiredArgsConstructor
 @Tag(name = "Authentication page", description = "the plp API with authentication methods")
@@ -39,6 +38,11 @@ public class AuthController {
             @RequestBody AuthRequest authRequest){
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseContainer<>(authenticationService.login(authRequest)));
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<ResponseContainer<Principal>> getCurrentUser(Principal principal){
+        return ResponseEntity.ok(new ResponseContainer<>(principal));
     }
 
 

@@ -1,0 +1,32 @@
+<div *ngIf="!user" class="d-flex flex-column justify-content-center">
+  <div class="col">
+    <h1>You are not authenticated, please log in</h1>
+  </div>
+  <div class="col">
+    <button routerLink="/login" class="btn btn-success btn-lg" style="width: 30%">Login</button>
+  </div>
+</div>
+<div *ngIf="user">
+  <ng-container *ngFor="let carVariant of user.carVariants">
+    <div class="card mb-3" style="max-width: 540px;">
+      <div class="row g-0">
+        <div class="col-md-4" style="padding-bottom: 0">
+          <img [src]="carVariant.car.carImage" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-8">
+          <div class="card-body" style="padding-bottom: 0">
+            <h5 class="card-title">{{carVariant.car.brand + " " + carVariant.car.model}}</h5>
+            <p class="card-text">{{carVariant.color + " " + carVariant.year + " " + carVariant.kilometrage + " " + carVariant.drivetrain}}</p>
+            <p class="card-text">{{carVariant.transmission + " " + carVariant.carEngineResponse.displacement + " "
+            + carVariant.carEngineResponse.typeOfFuel + " " + carVariant.carEngineResponse.fuelEconomy}}</p>
+            <p class="card-text">{{carVariant.price}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+  <button type="button" (click)="openDialog()" class="btn btn-info btn-lg">Get a consultation</button>
+</div>
+
+
+

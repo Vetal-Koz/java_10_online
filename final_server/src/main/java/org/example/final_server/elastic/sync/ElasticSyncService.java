@@ -35,9 +35,9 @@ public class ElasticSyncService {
                             .carInfo(
                                     cd.getCar().getModel() +
                                             " " + cd.getCar().getBrand().getBrand()
-                                            + " " + cd.getCar().getBodyType().getName()
-                                            + " " + cd.getFuelType().getType()
-                                            + " " + cd.getTransmissionType().getType())
+                                            + ", " + cd.getCar().getBodyType().getName()
+                                            + ", " + cd.getFuelType().getType()
+                                            + ", " + cd.getTransmissionType().getType())
                             .build();
                 }
         )

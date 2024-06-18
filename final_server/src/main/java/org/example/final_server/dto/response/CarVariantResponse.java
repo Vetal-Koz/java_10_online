@@ -37,6 +37,8 @@ public class CarVariantResponse extends ApiResponse{
 
     private CarEngineResponse carEngineResponse;
 
+    private CarResponse car;
+
     public CarVariantResponse(CarVariant carVariant){
         setId(carVariant.getId());
         this.color = carVariant.getColor();
@@ -51,6 +53,7 @@ public class CarVariantResponse extends ApiResponse{
         if (carVariant.getCarEngine() != null){
             this.carEngineResponse = new CarEngineResponse(carVariant.getCarEngine());
         }
+        this.car = new CarResponse(carVariant.getCar());
 
     }
 }

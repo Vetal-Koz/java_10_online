@@ -4,11 +4,15 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Digits;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.example.final_server.entity.BaseEntity;
+import org.example.final_server.entity.user.User;
 import org.example.final_server.type.DrivetrainType;
 import org.example.final_server.type.TransmissionType;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -55,4 +59,12 @@ public class CarVariant extends BaseEntity {
 
     @ManyToOne
     private CarEngine carEngine;
+
+    @ToString.Exclude
+    @ManyToMany(mappedBy = "carVariants")
+    private Set<User> users;
+
+    public CarVariant(){
+        this.users = new HashSet<>();
+    }
 }

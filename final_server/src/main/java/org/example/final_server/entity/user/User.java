@@ -3,13 +3,19 @@ package org.example.final_server.entity.user;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.example.final_server.entity.BaseEntity;
+import org.example.final_server.entity.car.Car;
+import org.example.final_server.entity.car.CarVariant;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 @Getter
@@ -40,6 +46,16 @@ public class User extends BaseEntity implements UserDetails {
 
     private boolean enabled;
 
+
+    @ToString.Exclude
+    @ManyToMany
+    @JoinTable(
+            name = "users_cars",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "car_id")
+    )
+    private Set<CarVariant> carVariants;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private RoleUser role;
@@ -48,6 +64,7 @@ public class User extends BaseEntity implements UserDetails {
         this.accountNonLocked = true;
         this.credentialsNonExpired = true;
         this.enabled = true;
+        this.carVariants = new HashSet<>();
     }
 
     @Override

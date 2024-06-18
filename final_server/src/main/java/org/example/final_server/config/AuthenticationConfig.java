@@ -40,6 +40,7 @@ public class AuthenticationConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/cars/**").permitAll()
                         .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                        .requestMatchers("/api/user/**").hasRole("USER")
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(manager -> manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

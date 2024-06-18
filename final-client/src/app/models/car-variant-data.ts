@@ -1,8 +1,11 @@
 import { CarEngineData } from "./car-engine.data";
+import {PlpData} from "./plp.data";
 
 export interface CarVariantData{
+  id: number;
+
   color: string;
-  
+
   year: number;
 
   kilometrage: string;
@@ -20,4 +23,6 @@ export interface CarVariantData{
   safetyRating: string;
 
   carEngineResponse: CarEngineData;
+
+  car: PlpData;
 }

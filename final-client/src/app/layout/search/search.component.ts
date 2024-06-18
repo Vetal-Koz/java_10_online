@@ -43,9 +43,15 @@ export class SearchComponent {
   }
 
   navigateToProduct(data: CarIndexData): void {
+    const arr: String[] = data.carInfo.split(",")
+    const typeOfFuel = arr[2].trim();
+    const transmission = arr[3].trim();
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate([`/cars/${data.carId}`]);});
-  }
+      this.router.navigate([`/cars/${data.carId}`], {
+        queryParams: { typeOfFuel, transmission }
+      })});
+  };
+
 
   ngOnDestroy(): void {
     this.searchResultSub$.complete();

@@ -2,9 +2,11 @@ package org.example.final_server.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.example.final_server.dto.request.DataTableRequest;
+import org.example.final_server.entity.car.CarVariant;
 import org.example.final_server.entity.user.User;
 import org.example.final_server.exception.EntityNotFoundException;
 import org.example.final_server.exception.NotValidDataException;
+import org.example.final_server.repository.car.CarVariantRepository;
 import org.example.final_server.repository.user.UserRepository;
 import org.example.final_server.service.UserService;
 import org.example.final_server.util.ExceptionUtil;
@@ -14,11 +16,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @RequiredArgsConstructor
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
+    private final CarVariantRepository carVariantRepository;
 
     private final PasswordEncoder passwordEncoder;
     @Override
@@ -29,7 +35,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void update(User entity) {
-
+        userRepository.save(entity);
     }
 
     @Override
@@ -43,8 +49,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findUserByEmail(String email){
+        return userRepository.findByEmail(email).orElseThrow(()-> new EntityNotFoundException(ExceptionUtil.ENTITY_NOT_FOUND.getMessage()));
+    }
+    @Override
     public Page<User> findAll(DataTableRequest request) {
         return null;
+    }
+
+    @Override
+    public void attachCarVariantToUser(Long userId, Long carVariantId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException(ExceptionUtil.ENTITY_NOT_FOUND.getMessage()));
+        CarVariant carVariant = carVariantRepository.findById(carVariantId).orElseThrow(()->new EntityNotFoundException(ExceptionUtil.ENTITY_NOT_FOUND.getMessage()));
+        Set<CarVariant> carVariantSet = user.getCarVariants();
+        carVariantSet.add(carVariant);
+        userRepository.save(user);
     }
 
     private void checkCorrectUser(User entity){

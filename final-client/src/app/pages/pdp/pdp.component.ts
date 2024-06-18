@@ -7,7 +7,11 @@ import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import { CarVariantList } from "./helpModels/car-variant-list";
 import {carEngineList} from "./helpModels/car-engine-list";
-import {fromEvent, Observable, Subscription} from "rxjs";
+import {UserService} from "../../services/user.service";
+import {User} from "../../models/principal/user.data";
+import {UserResponseData} from "../../models/user-response.data";
+import {map} from "rxjs";
+
 
 
 const defaultCarVariantList: CarVariantList = {
@@ -32,7 +36,6 @@ const defaultCarEngineList: carEngineList = {
 }
 
 
-
 @Component({
   selector: 'app-pdp',
   templateUrl: './pdp.component.html',
@@ -40,11 +43,13 @@ const defaultCarEngineList: carEngineList = {
 })
 
 export class PdpComponent implements OnInit{
-  car?: PdpData;
+  cars?: PdpData;
 
-  carVariant: CarVariantData[] = [];
+  carVariants: CarVariantData[] = [];
 
-  carFormVariant: CarVariantData[] = [];
+  selectedCarVariant?: CarVariantData;
+
+  currentVariants: CarVariantData[] = [];
 
   countOfSelectFunction: number = 0;
 
@@ -54,7 +59,9 @@ export class PdpComponent implements OnInit{
 
   carPrice: string = '';
 
-  numberOfClick: number = 0;
+  userEmail = localStorage.getItem('email')
+
+  user?: UserResponseData;
 
   carVariantList= defaultCarVariantList;
 
@@ -75,16 +82,18 @@ export class PdpComponent implements OnInit{
     horsepower: [null, Validators.required],
   })
 
-  constructor(private carService: CarService, private route: ActivatedRoute, private formBuilder: FormBuilder) {}
+  constructor(private carService: CarService, private route: ActivatedRoute,
+              private formBuilder: FormBuilder, private userService: UserService,
+              private router: Router) {}
 
 
   getInfoById(id: number){
     this.carService.findById(id)
     .subscribe(res => {
-        this.car = res,
+        this.cars = res,
         this.selectedImage = res.carImages[0],
-        this.carVariant = res.carVariantResponses,
-          this.carFormVariant = this.carVariant;
+        this.carVariants = res.carVariantResponses,
+          this.currentVariants = this.carVariants;
         this.initCarVariantSets(res.carVariantResponses),
         this.initCarEngineSets(res.carVariantResponses)
     });
@@ -99,47 +108,69 @@ export class PdpComponent implements OnInit{
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'))
     this.getInfoById(id);
-    // this.onChanges();
     this.innerWidth = window.innerWidth;
     this.checkCurrentWidth();
+
+    this.route.queryParamMap
+      .pipe(
+        // @ts-ignore
+        map(map => map['params'])
+      )
+      .subscribe(params => {
+          if (params) {
+            const typeOfFuel = params?.typeOfFuel;
+            const transmission = params?.transmission;
+            if (typeOfFuel) {
+              this.form.controls['typeOfFuel'].setValue(typeOfFuel);
+            }
+            if (transmission) {
+              this.form.controls['transmission'].setValue(transmission);
+            }
+          }
+        }
+      )
+    if(this.userEmail !== null) {
+      this.userService.loadCurrentUserData(this.userEmail).subscribe(res => this.user = res);
+    }
+  }
+
+  addCarVariantToUser(){
+    if (this.user && this.selectedCarVariant) {
+      this.userService.attachCarVariantToUser(this.user.id, this.selectedCarVariant.id).subscribe(
+        res => {
+          this.router.navigate(['/wishList']);
+      }
+      );
+    }
   }
 
   onClickForVariant(text: string){
-    console.log(1);
-    console.log(this.form.controls[text].value);
-    console.log(text);
-
     if (this.form.controls[text].value !== null) {
-      // @ts-ignore
-      this.carFormVariant = this.carFormVariant.filter(cv => cv[text] === this.form.controls[text].value);
-      console.log(this.carFormVariant);
-      this.initCarVariantSets(this.carFormVariant);
-      this.initCarEngineSets(this.carFormVariant);
+      if (text !== 'year' && text !== 'numberOfDoors') {
+        // @ts-ignore
+        this.currentVariants = this.currentVariants.filter(cv => cv[text] === this.form.controls[text].value);
+      }
+      else {
+        this.currentVariants = this.currentVariants.filter(cv => cv[text] === Number(this.form.controls[text].value));
+      }
+      this.initCarVariantSets(this.currentVariants);
+      this.initCarEngineSets(this.currentVariants);
     }
   }
 
   onClickForEngine(text: string){
-    console.log(1);
-    console.log(this.form.controls[text].value);
-    console.log(text);
-
     if (this.form.controls[text].value !== null) {
-      console.log(this.carFormVariant);
-      // @ts-ignore
       if (text !== 'horsepower') {
         // @ts-ignore
-
-        this.carFormVariant = this.carFormVariant.filter(cv => cv.carEngineResponse[text] === this.form.controls[text].value);
+        this.currentVariants = this.currentVariants.filter(cv => cv.carEngineResponse[text] === this.form.controls[text].value);
       }
       else {
-        this.carFormVariant = this.carFormVariant.filter(cv => cv.carEngineResponse['horsepower'] === Number(this.form.controls[text].value));
+        this.currentVariants = this.currentVariants.filter(cv => cv.carEngineResponse[text] === Number(this.form.controls[text].value));
       }
-      this.initCarVariantSets(this.carFormVariant);
-      this.initCarEngineSets(this.carFormVariant);
+      this.initCarVariantSets(this.currentVariants);
+      this.initCarEngineSets(this.currentVariants);
     }
   }
-
-
 
   @HostListener('window:resize', ['$event.target.innerWidth'])
   onResize(width: number) {
@@ -157,24 +188,17 @@ export class PdpComponent implements OnInit{
     }
   }
 
-
-  getCurrentCarPrice():boolean{
-    if (!this.form.invalid){
-      this.carPrice = this.carFormVariant.map(cv => cv.price)[0];
+  getCurrentCarVariant():boolean{
+    if (!this.form.invalid) {
+      if (this.currentVariants.length === 1) {
+        this.selectedCarVariant = this.currentVariants[0];
+        this.carPrice = this.selectedCarVariant.price;
+      }
       return true;
     }
     else {
       return false
     }
-  }
-
-
-  updateFormCarVariant() {
-    this.initCarVariantSets(this.carFormVariant);
-    this.initCarEngineSets(this.carFormVariant);
-    // if (this.countOfSelectFunction < 1) {
-    //   this.selectOneValue();
-    // }
   }
 
   initCarVariantSets(carVariants: CarVariantData[]): void{
@@ -202,14 +226,8 @@ export class PdpComponent implements OnInit{
     for (let variantsKey in this.carVariantList) {
       // @ts-ignore
       if(this.carVariantList[variantsKey].length === 1 && variantsKey !== 'price' && variantsKey !== 'numberOfSeats' && variantsKey !== 'safetyRating') {
-        if (variantsKey !== 'horsepower') {
           // @ts-ignore
           this.form.controls[variantsKey].setValue(this.carVariantList[variantsKey][0]);
-        }
-
-        // @ts-ignore
-        console.log(this.carVariantList[variantsKey]);
-        console.log(variantsKey);
       }
     }
   }
@@ -229,28 +247,22 @@ export class PdpComponent implements OnInit{
       torque: Array.from(torques),
       cylinders: Array.from(cylinders)
     }
-    // for (let variantsKey in this.carEngineList) {
-    //   // @ts-ignore
-    //   if(this.carEngineList[variantsKey].length === 1 && variantsKey !== 'cylinders' && variantsKey !== 'torque') {
-    //     // @ts-ignore
-    //     this.form.controls[variantsKey].setValue(this.carVariantList[variantsKey][0]);
-    //     // @ts-ignore
-    //     console.log(this.carVariantList[variantsKey]);
-    //     console.log(variantsKey);
-    //   }
-    // }
+    for (let variantsKey in this.carEngineList) {
+      // @ts-ignore
+      if(this.carEngineList[variantsKey].length === 1 && variantsKey !== 'cylinders' && variantsKey !== 'torque') {
+        // @ts-ignore
+        this.form.controls[variantsKey].setValue(this.carEngineList[variantsKey][0]);
+      }
+    }
   }
-
 
   clearChoice() : void{
     this.form.reset();
-    this.carFormVariant = this.carVariant;
-    this.initCarVariantSets(this.carFormVariant);
-    this.initCarEngineSets(this.carFormVariant);
+    this.currentVariants = this.carVariants;
+    this.initCarVariantSets(this.currentVariants);
+    this.initCarEngineSets(this.currentVariants);
     this.countOfSelectFunction = 0;
   }
-
-
 
   protected readonly Number = Number;
 }
