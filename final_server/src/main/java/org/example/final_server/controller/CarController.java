@@ -36,18 +36,18 @@ public class CarController {
             @RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam(defaultValue = "id") String sort,
-            @RequestParam(defaultValue = "desc") String order){
+            @RequestParam(defaultValue = "desc") String order) {
         DataTableRequest dataTableRequest = new DataTableRequest(size, page, sort, order);
         return ResponseEntity.ok(new ResponseContainer<>(carFacade.findAll(dataTableRequest)));
     }
 
     @GetMapping("{carId}")
-    public ResponseEntity<ResponseContainer<CarPdpResponse>> findById(@Min(1) @PathVariable("carId") Long carId){
+    public ResponseEntity<ResponseContainer<CarPdpResponse>> findById(@Min(1) @PathVariable("carId") Long carId) {
         return ResponseEntity.ok(new ResponseContainer<>(carPdpFacade.findByCar(carId)));
     }
 
     @GetMapping("search")
-    public ResponseEntity<ResponseContainer<List<CarIndex>>> search(@RequestParam String search){
+    public ResponseEntity<ResponseContainer<List<CarIndex>>> search(@RequestParam String search) {
         List<CarIndex> cars = carSearchService.search(search);
         return ResponseEntity.status(HttpStatus.OK).body(new ResponseContainer<List<CarIndex>>(cars));
     }

@@ -19,28 +19,28 @@ public class ElasticSyncService {
     private final CarVariantRepository carVariantRepository;
 
     @Scheduled(cron = "*/10 * * * * *")
-    public void updateElasticData(){
+    public void updateElasticData() {
         carIndexRepository.deleteAll();
         System.out.println("ElasticSyncService.updateElasticData");
         carIndexRepository.saveAll(getCarIndexList());
     }
 
-    private List<CarIndex> getCarIndexList(){
+    private List<CarIndex> getCarIndexList() {
         List<CarSearchDto> carSearchDtoList = carVariantRepository.findCarIndexDataList();
         List<CarIndex> carIndices = carSearchDtoList
                 .stream()
                 .map(cd -> {
-                    return CarIndex.builder()
-                            .carId(cd.getCar().getId())
-                            .carInfo(
-                                    cd.getCar().getModel() +
-                                            " " + cd.getCar().getBrand().getBrand()
-                                            + ", " + cd.getCar().getBodyType().getName()
-                                            + ", " + cd.getFuelType().getType()
-                                            + ", " + cd.getTransmissionType().getType())
-                            .build();
-                }
-        )
+                            return CarIndex.builder()
+                                    .carId(cd.getCar().getId())
+                                    .carInfo(
+                                            cd.getCar().getModel() +
+                                                    " " + cd.getCar().getBrand().getBrand()
+                                                    + ", " + cd.getCar().getBodyType().getName()
+                                                    + ", " + cd.getFuelType().getType()
+                                                    + ", " + cd.getTransmissionType().getType())
+                                    .build();
+                        }
+                )
                 .toList();
         return carIndices;
     }

@@ -31,7 +31,7 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public Car findById(Long id) {
-        return carRepository.findById(id).orElseThrow(()-> new EntityNotFoundException(ExceptionUtil.ENTITY_NOT_FOUND.getMessage()));
+        return carRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ExceptionUtil.ENTITY_NOT_FOUND.getMessage()));
     }
 
     @Override
@@ -45,7 +45,7 @@ public class CarServiceImpl implements CarService {
                 request.getOrder().equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC,
                 request.getSort());
 
-        Pageable pageable = PageRequest.of(request.getPage()-1, request.getSize(), sort);
+        Pageable pageable = PageRequest.of(request.getPage() - 1, request.getSize(), sort);
         return carRepository.findAll(pageable);
     }
 }

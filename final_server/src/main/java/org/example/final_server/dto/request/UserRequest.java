@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserRequest extends ApiRequest{
+public class UserRequest extends ApiRequest {
     @NotBlank(message = "email is not present")
     private String email;
 }

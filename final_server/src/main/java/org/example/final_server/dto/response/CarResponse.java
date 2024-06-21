@@ -1,15 +1,10 @@
 package org.example.final_server.dto.response;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.example.final_server.entity.car.Car;
 import org.example.final_server.entity.car.CarImage;
-import org.example.final_server.entity.car.CarVariant;
-import org.example.final_server.type.BodyType;
-import org.example.final_server.type.BrandType;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Set;
@@ -17,7 +12,7 @@ import java.util.Set;
 
 @Getter
 @Setter
-public class CarResponse extends ApiResponse{
+public class CarResponse extends ApiResponse {
     private String brand;
 
     private String model;
@@ -32,7 +27,7 @@ public class CarResponse extends ApiResponse{
 
     private String minPrice;
 
-    public CarResponse(Car car){
+    public CarResponse(Car car) {
         setId(car.getId());
         this.brand = car.getBrand().getBrand();
         this.model = car.getModel();

@@ -12,7 +12,7 @@ public enum BodyType {
     SUV("suv");
     private final String name;
 
-     BodyType(String name) {
+    BodyType(String name) {
         this.name = name;
     }
 }

@@ -33,7 +33,7 @@ public class CarEngineServiceImpl implements CarEngineService {
 
     @Override
     public CarEngine findById(Long id) {
-        return carEngineRepository.findById(id).orElseThrow(()-> new EntityNotFoundException(ExceptionUtil.ENTITY_NOT_FOUND.getMessage()));
+        return carEngineRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ExceptionUtil.ENTITY_NOT_FOUND.getMessage()));
     }
 
     @Override

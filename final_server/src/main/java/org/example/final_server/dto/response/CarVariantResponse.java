@@ -1,21 +1,14 @@
 package org.example.final_server.dto.response;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.validation.constraints.Digits;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.example.final_server.entity.car.CarVariant;
-import org.example.final_server.type.DrivetrainType;
-import org.example.final_server.type.TransmissionType;
-
-import java.math.BigDecimal;
 
 
 @Getter
 @Setter
-public class CarVariantResponse extends ApiResponse{
+public class CarVariantResponse extends ApiResponse {
 
     private String color;
 
@@ -39,7 +32,7 @@ public class CarVariantResponse extends ApiResponse{
 
     private CarResponse car;
 
-    public CarVariantResponse(CarVariant carVariant){
+    public CarVariantResponse(CarVariant carVariant) {
         setId(carVariant.getId());
         this.color = carVariant.getColor();
         this.year = carVariant.getYear();
@@ -50,7 +43,7 @@ public class CarVariantResponse extends ApiResponse{
         this.numberOfDoors = carVariant.getNumberOfDoors();
         this.numberOfSeats = carVariant.getNumberOfSeats();
         this.safetyRating = String.valueOf(carVariant.getSafetyRating());
-        if (carVariant.getCarEngine() != null){
+        if (carVariant.getCarEngine() != null) {
             this.carEngineResponse = new CarEngineResponse(carVariant.getCarEngine());
         }
         this.car = new CarResponse(carVariant.getCar());

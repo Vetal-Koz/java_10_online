@@ -23,10 +23,11 @@ import java.security.Principal;
 public class AuthController {
 
     private final AuthenticationService authenticationService;
+
     @PostMapping("/register")
     public ResponseEntity<ResponseContainer<AuthResponse>> register(
             @Valid
-            @RequestBody AuthRequest authRequest){
+            @RequestBody AuthRequest authRequest) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new ResponseContainer<>(authenticationService.register(authRequest)));
     }
@@ -35,13 +36,13 @@ public class AuthController {
     @PostMapping("/login")
     public ResponseEntity<ResponseContainer<AuthResponse>> login(
             @Valid
-            @RequestBody AuthRequest authRequest){
+            @RequestBody AuthRequest authRequest) {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseContainer<>(authenticationService.login(authRequest)));
     }
 
     @GetMapping("/user")
-    public ResponseEntity<ResponseContainer<Principal>> getCurrentUser(Principal principal){
+    public ResponseEntity<ResponseContainer<Principal>> getCurrentUser(Principal principal) {
         return ResponseEntity.ok(new ResponseContainer<>(principal));
     }
 

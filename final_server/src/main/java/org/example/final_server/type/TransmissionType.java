@@ -1,4 +1,5 @@
 package org.example.final_server.type;
+
 import lombok.Getter;
 
 @Getter

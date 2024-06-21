@@ -5,12 +5,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
-import org.example.final_server.util.ExceptionUtil;
-import org.example.final_server.util.ValidationUtil;
 
 @Getter
 @Setter
-public class AuthRequest extends ApiRequest{
+public class AuthRequest extends ApiRequest {
 
     @NotBlank(message = "email is not present")
     @Pattern(regexp = "^(?=.{1,64}@)[\\p{L}0-9_-]+(\\.[\\p{L}0-9_-]+)*@"

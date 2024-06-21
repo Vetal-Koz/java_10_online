@@ -33,7 +33,7 @@ public class CarVariantServiceImpl implements CarVariantService {
 
     @Override
     public CarVariant findById(Long id) {
-        return carVariantRepository.findById(id).orElseThrow(()-> new EntityNotFoundException(ExceptionUtil.ENTITY_NOT_FOUND.getMessage()));
+        return carVariantRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ExceptionUtil.ENTITY_NOT_FOUND.getMessage()));
     }
 
     @Override

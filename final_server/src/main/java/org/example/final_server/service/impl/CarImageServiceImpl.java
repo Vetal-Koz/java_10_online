@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 public class CarImageServiceImpl implements CarImageService {
 
     private final CarImageRepository carImageRepository;
+
     @Override
     public void create(CarImage entity) {
         carImageRepository.save(entity);
@@ -30,7 +31,7 @@ public class CarImageServiceImpl implements CarImageService {
 
     @Override
     public CarImage findById(Long id) {
-        return carImageRepository.findById(id).orElseThrow(()-> new EntityNotFoundException(ExceptionUtil.ENTITY_NOT_FOUND.getMessage()));
+        return carImageRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ExceptionUtil.ENTITY_NOT_FOUND.getMessage()));
     }
 
     @Override
@@ -43,7 +44,7 @@ public class CarImageServiceImpl implements CarImageService {
         Sort sort = Sort.by(
                 request.getOrder().equals("asc") ? Sort.Direction.ASC : Sort.Direction.DESC,
                 request.getSort());
-        Pageable pageable = PageRequest.of(request.getPage() -1 , request.getSize(), sort);
+        Pageable pageable = PageRequest.of(request.getPage() - 1, request.getSize(), sort);
         return carImageRepository.findAll(pageable);
     }
 }

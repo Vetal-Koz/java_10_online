@@ -9,7 +9,8 @@ public enum ValidationUtil {
     PASSWORD_REGEX_PATTERN("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{6,20}$");
 
     private final String text;
-    ValidationUtil(String text){
+
+    ValidationUtil(String text) {
         this.text = text;
     }
 }

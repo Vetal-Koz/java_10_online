@@ -1,6 +1,5 @@
 package org.example.final_server.facade.impl;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.example.final_server.dto.request.CarRequest;
 import org.example.final_server.dto.request.DataTableRequest;

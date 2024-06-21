@@ -13,7 +13,8 @@ public enum ExceptionUtil {
     PASSWORD_IS_NOT_VALID("password is not valid");
 
     private final String message;
-    ExceptionUtil(String message){
+
+    ExceptionUtil(String message) {
         this.message = message;
     }
 }
